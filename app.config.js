@@ -3,6 +3,8 @@ const path = require("path");
 module.exports = {
     title_tag: "#",
     question_tag: "##",
-    answer_tag: "",
-    sources: [path.resolve("~/Documents/exercises")]
+    sources: [
+        path.resolve("/home/douglas/Documents/exercises"),
+        path.resolve("/home/douglas/Documents/exercises/devops"),
+    ]
 }
