@@ -15,7 +15,7 @@
         </div>
 
         <div v-else>
-            <p>You've covered all of this topic's questions in xxx minutes</p>
+            <p>You've covered all of this topic's questions in {{ this.timer.getTimeString() }}</p>
             <router-link to="/">Back to Topics</router-link>
         </div>
     </div>
@@ -24,6 +24,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Topic from "../models/Topic";
+import Timer from "../models/Timer";
+import { getStorage } from "../DependencyInjection";
 
 export default defineComponent({
     name: "Topic",
@@ -32,6 +34,7 @@ export default defineComponent({
     },
     data() {
         return {
+            timer: new Timer(),
             question: null,
             showAnswer: false
         };
@@ -40,6 +43,7 @@ export default defineComponent({
         if (!this.topic) {
             this.$store.dispatch("getSources");
         }
+        this.timer.start();
         this.getNewQuestion();
     },
     unmounted() {
@@ -48,6 +52,16 @@ export default defineComponent({
     methods: {
         getNewQuestion() {
             this.question = this.topic.getRandomQuestion() as any;
+
+            if (this.question === null) {
+                this.timer.stop();
+
+                getStorage().saveRun({
+                    topic: this.topic.getName(),
+                    time: this.timer.getTime(),
+                    date: new Date()
+                });
+            }
         }
     },
     computed: {
