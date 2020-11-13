@@ -1,22 +1,30 @@
 <template>
-    <div class="topic" v-if="topic">
-        <h1>{{ topic.getName() }}</h1>
+    <div v-if="topic">
+        <div class="d-flex flex-wrap align-items-center justify-content-between">
+            <h1 class="text-uppercase font-weight-light">{{ topic.getName() }}</h1>
 
-        <div v-if="question">
-            <h2>{{ question.getText() }}</h2>
-            
-            <div v-if="showAnswer" v-html="question.getAnswer()" />
+            <div>
+                <button @click="showAnswer = !showAnswer" class="btn btn-primary">
+                    {{showAnswer ? 'Hide' : 'Show'}} answer
+                </button>
 
-            <button @click="showAnswer = !showAnswer">
-                {{showAnswer ? 'Hide' : 'Show'}} answer
-            </button>
-
-            <button @click="getNewQuestion">Next</button>
+                <button @click="getNewQuestion" class="ml-4 btn btn-success">Next question</button>
+            </div>
         </div>
 
-        <div v-else>
-            <p>You've covered all of this topic's questions in {{ this.timer.getTimeString() }}</p>
-            <router-link to="/">Back to Topics</router-link>
+        <div class="row justify-content-center">
+            <div class="mt-5 col-lg-9 col-xl-8">
+                <div v-if="question" class="mt-4">
+                    <h2 class="font-weight-normal text-light">{{ question.getText() }}</h2>
+                    
+                    <div v-if="showAnswer" v-html="question.getAnswer()" class="mt-4" />
+                </div>
+
+                <div v-else>
+                    <p>You've covered all of this topic's questions in {{ this.timer.getTimeString() }}</p>
+                    <router-link to="/" class="btn btn-secondary">Back to Topics</router-link>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -45,11 +53,20 @@ export default defineComponent({
         }
         this.timer.start();
         this.getNewQuestion();
+        document.addEventListener("keydown", this.navigate);
     },
     unmounted() {
         this.topic.reset();
+        document.removeEventListener("keydown", this.navigate);
     },
     methods: {
+        navigate(event: KeyboardEvent) {
+            if (event.key === "l" || event.key === "ArrowRight") {
+                this.getNewQuestion();
+            } else if (event.key === "j") {
+                this.showAnswer = !this.showAnswer;
+            }
+        },
         getNewQuestion() {
             this.question = this.topic.getRandomQuestion() as any;
 
@@ -58,6 +75,7 @@ export default defineComponent({
 
                 getStorage().saveRun({
                     topic: this.topic.getName(),
+                    slug: this.topic.getSlug(),
                     time: this.timer.getTime(),
                     date: new Date()
                 });

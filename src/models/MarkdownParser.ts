@@ -1,10 +1,9 @@
 import fs from "fs";
 import path from "path";
 import Topic from "./Topic";
+import config from "./Config";
 import Question from "./Question";
 import MarkdownIt from "markdown-it";
-// @ts-ignore
-import conf from "../../app.config.js";
 import Token from "markdown-it/lib/token";
 import FileParser from "./FileParser";
 
@@ -33,22 +32,22 @@ export default class MarkdownItParser implements FileParser {
         let i = 0;
 
         while (i < tokens.length) {
-            if (tokens[i].markup === conf.title_tag && title === "") {
+            if (tokens[i].markup === config.title_tag && title === "") {
                 title = tokens[i + 1].content;
                 i += 1;
             }
-            else if (tokens[i].markup === conf.question_tag) {
+            else if (tokens[i].markup === config.question_tag) {
                 let j = i + 1;
                 let title = "";
                 let answer = "";
 
-                while (tokens[j] && tokens[j].markup !== conf.question_tag) {
+                while (tokens[j] && tokens[j].markup !== config.question_tag) {
                     title += tokens[j].content;
                     j++;
                 }
 
                 ++j;
-                while (tokens[j] && tokens[j].markup !== conf.question_tag) {
+                while (tokens[j] && tokens[j].markup !== config.question_tag) {
                     answer += this.markdown.renderer.render([tokens[j]], {}, {});
                     j++;
                 }

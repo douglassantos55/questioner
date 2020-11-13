@@ -1,10 +1,10 @@
-// @ts-ignore
-import conf from "../../app.config.js";
 import { createStore } from "vuex";
 import Topic from "../models/Topic";
 import Source from "../models/Source";
+import config from "../models/Config";
 import SourceLoader from "../models/SourceLoader";
 import { getSourceLoader } from "../DependencyInjection";
+
 
 export default createStore({
     state: {
@@ -29,7 +29,7 @@ export default createStore({
             const sources: Source[] = [];
             const loader: SourceLoader = getSourceLoader();
 
-            conf.sources.forEach(function (source: string) {
+            [...new Set(config.sources)].forEach(function (source: string) {
                 sources.push(loader.load(source));
             });
             

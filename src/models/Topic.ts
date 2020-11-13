@@ -1,4 +1,7 @@
 import Question from "./Question";
+import { RunParams } from "./Storage";
+import { formatTime } from "../format";
+import { getStorage } from "../DependencyInjection";
 
 export default class Topic {
     private name: string;
@@ -16,6 +19,15 @@ export default class Topic {
 
     getSlug(): string {
         return this.name.replace(/[^a-zA-Z]/, "-").toLowerCase();
+    }
+
+    getAverageTime(): number {
+        const runs: RunParams[] = getStorage().getTopicRuns(this.getSlug());
+        return Math.round(runs.reduce((acc: number, run: RunParams) => acc + run.time, 0) / runs.length);
+    }
+
+    getAverageTimeString(): string {
+        return formatTime(this.getAverageTime());
     }
 
     reset() {

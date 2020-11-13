@@ -1,11 +1,6 @@
 'use strict'
 
-// @ts-ignore
-import conf from "../app.config.js";
-import Source from "./models/Source";
-import { getSourceLoader } from "./DependencyInjection";
-
-import { app, ipcMain, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -83,14 +78,3 @@ if (isDevelopment) {
     })
   }
 }
-
-ipcMain.handle("fetchSources", function () {
-    const sources: Source[] = [];
-    const loader = getSourceLoader();
-
-    conf.sources.forEach(function (source: string) {
-        sources.push(loader.load(source));
-    });
-
-    return sources;
-});

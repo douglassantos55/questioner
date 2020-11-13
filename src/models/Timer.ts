@@ -1,3 +1,5 @@
+import { formatTime } from "../format";
+
 export default class Timer {
     private interval: number;
     private seconds: number;
@@ -20,14 +22,6 @@ export default class Timer {
     }
 
     getTimeString(): string {
-        var h = Math.floor(this.seconds / 3600);
-        var m = Math.floor(this.seconds % 3600 / 60);
-        var s = Math.floor(this.seconds % 3600 % 60);
-
-        var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
-        var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
-        var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
-
-        return hDisplay + mDisplay + sDisplay; 
+        return formatTime(this.seconds);
     }
 }

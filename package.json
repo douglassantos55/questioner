@@ -13,6 +13,7 @@
   },
   "main": "background.js",
   "dependencies": {
+    "bootstrap-vue": "^2.17.3",
     "core-js": "^3.6.5",
     "markdown-it": "^12.0.2",
     "register-service-worker": "^1.7.1",
@@ -21,6 +22,7 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@babel/polyfill": "^7.11.5",
     "@types/chai": "^4.2.11",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/markdown-it": "^10.0.2",
@@ -34,11 +36,17 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/test-utils": "^2.0.0-0",
+    "bootstrap": "^4.5.2",
     "chai": "^4.1.2",
     "electron": "^9.0.0",
     "electron-devtools-installer": "^3.1.0",
+    "mutationobserver-shim": "^0.3.7",
+    "popper.js": "^1.16.1",
+    "portal-vue": "^2.1.7",
+    "sass": "^1.26.11",
+    "sass-loader": "^10.0.2",
     "typescript": "~3.9.3",
-    "vue-cli-plugin-electron-builder": "~2.0.0-rc.5",
-    "vue-cli-plugin-tailwind": "~1.5.0"
+    "vue-cli-plugin-bootstrap-vue": "~0.7.0",
+    "vue-cli-plugin-electron-builder": "~2.0.0-rc.5"
   }
 }
