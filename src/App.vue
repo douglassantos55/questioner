@@ -9,7 +9,7 @@
               </li>
           </router-link>
 
-          <router-link to="/stats" v-slot="{ href, isActive, navigate }">
+          <router-link to="/statistics" v-slot="{ href, isActive, navigate }">
               <li class="nav-item" :class="{active: isActive}">
                 <a :href="href" @click="navigate" class="nav-link">Statistics</a>
               </li>

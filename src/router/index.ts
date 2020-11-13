@@ -12,7 +12,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Topic',
     props: true,
     component: () => import('../views/Topic.vue')
-  }
+  },
+  {
+    path: '/statistics',
+    name: 'Statistics',
+    component: () => import('../views/Statistics.vue')
+  },
 ]
 
 const router = createRouter({
