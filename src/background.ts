@@ -1,10 +1,12 @@
 'use strict'
 
 import { autoUpdater } from "electron-updater";
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, ipcMain, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
+
+autoUpdater.logger = console;
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -32,8 +34,16 @@ async function createWindow() {
     createProtocol('app')
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
-    autoUpdater.checkForUpdatesAndNotify();
+    autoUpdater.checkForUpdates();
   }
+
+  autoUpdater.on("update-downloaded", function () {
+    win.webContents.send("confirm-install", "A new version is available. Install now?");
+  });
+
+  ipcMain.handle("install", () => {
+    autoUpdater.quitAndInstall(true, true);
+  });
 }
 
 // Quit when all windows are closed.
