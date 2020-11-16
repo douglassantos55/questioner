@@ -1,7 +1,6 @@
 module.exports = {
     pluginOptions: {
         electronBuilder: {
-            asar: false,
             nodeIntegration: true,
             builderOptions: {
                 publish: [
